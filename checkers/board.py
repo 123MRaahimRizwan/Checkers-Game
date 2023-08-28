@@ -17,6 +17,24 @@ class Board:
         for row in range(ROWS):
             for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(win, WHITE, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+    
+    def evaluate(self):
+        """
+        Evaluates the current board position
+        """
+        return self.white_left - self.black_left + (self.white_kings*0.5 - self.black_kings*0.5) # Returns the score like the evaluation
+
+    
+    def get_all_pieces(self, color):
+        """
+        Returns all the pieces in a two dimensional list
+        """
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        return pieces
 
     
     def move(self, piece, row, col):
@@ -34,7 +52,7 @@ class Board:
 
     def get_piece(self, row, col):
         """
-        Returns the Piece
+        Returns the Piece at a particular row or column
         """
         return self.board[row][col]
 
@@ -67,6 +85,9 @@ class Board:
                     piece.draw(win)
 
     def remove(self, pieces):
+        """
+        Removes a certain piece if it is captured
+        """
         for piece in pieces:
             self.board[piece.row][piece.col] = 0
         if piece != 0:
@@ -76,6 +97,9 @@ class Board:
                 self.white_left -= 1
 
     def winner(self):
+        """
+        Checks if there is a winner
+        """
         if self.black_left <= 0:
             return WHITE
         elif self.white_left <= 0:
@@ -84,6 +108,9 @@ class Board:
         return None 
 
     def get_valid_moves(self, piece):
+        """
+        Gets all the valid moves and store it in a dictionary
+        """
         moves = {}
         left = piece.col - 1
         right = piece.col + 1

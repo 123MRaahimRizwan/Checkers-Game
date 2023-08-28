@@ -15,13 +15,22 @@ class Piece:
         self.calc_pos()
 
     def calc_pos(self):
+        """
+        Calculates the position of a certain piece
+        """
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
         self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
 
     def make_king(self):
+        """
+        Makes a particular piece a king
+        """
         self.king = True
     
     def draw(self, win):
+        """
+        Draws a piece on the board
+        """
         radius = SQUARE_SIZE//2 - self.PADDING
         pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.OUTLINE)
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
@@ -29,6 +38,9 @@ class Piece:
             win.blit(CROWN, (self.x - CROWN.get_width()//2, self.y - CROWN.get_height()//2))
     
     def move(self, row, col):
+        """
+        Moves a certain piece by calculating the x and y position
+        """
         self.row = row
         self.col = col
         self.calc_pos()
